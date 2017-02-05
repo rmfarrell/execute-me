@@ -1,11 +1,13 @@
-<template>
+<template lang="pug">
+  div
 </template>
 <script>
 export default {
   name: 'virtualCanvas',
   props: {
     baseImage: String,
-    topImage: String,
+    rightImage: Image,
+    leftImage: Image,
     height: Number,
     width: Number,
     gif: Object
@@ -29,12 +31,29 @@ export default {
       this.canvas.width = this.width
       this.ctx = this.canvas.getContext('2d')
     },
+    reset () {
+      this.ctx.fillStyle = '#000000'
+      this.ctx.fillRect(0, 0, this.width, this.height)
+    },
+    resetTransform () {
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+      this.ctx.rotate(0)
+    },
+    placePage (data, address, img) {
+      let d = data[address]
+      this.ctx.setTransform(...d.transform)
+      this.ctx.rotate(d.rotate)
+      this.ctx.drawImage(img, ...d.args)
+      this.resetTransform()
+    },
     renderFrame (f) {
+      this.reset()
+      this.placePage(f, 'left', this.leftImage)
+      this.placePage(f, 'right', this.rightImage)
+      this.ctx.globalAlpha = 0.7
       this.attachImage(this.baseImage, 0, 0)
         .then(() => {
-          return this.attachImage(this.topImage, f.x, f.y)
-        })
-        .then(() => {
+          this.$el.appendChild(this.canvas)
           this.gif.addFrame(this.canvas, {copy: true})
           this.$bus.$emit('frame-rendered')
         })

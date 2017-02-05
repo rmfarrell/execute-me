@@ -3,8 +3,9 @@
   virtual-canvas(
     :height="height",
     :width="width",
+    :left-image="leftImage.img",
+    :right-image="rightImage.img",
     :base-image="baseImage",
-    :top-image="topImage",
     :gif="gif",
     :frame-data="currentFrameData"
   )
@@ -19,28 +20,33 @@ export default {
   name: 'app',
   data () {
     return {
-      height: 521,
-      width: 600,
-      baseImage: './static/img/centerframe.gif',
-      topImage: './static/img/smiley.png',
+      height: 648,
+      width: 746,
+      baseImage: './static/img/test_trump.png',
       gif: new window.GIF({
         workers: 2,
         quality: 10,
         height: this.height,
         width: this.width
       }),
+      leftImage: {
+        loaded: false,
+        src: './static/img/che.jpg',
+        img: new Image()
+      },
+      rightImage: {
+        loaded: false,
+        src: './static/img/che.jpg',
+        img: new Image()
+      },
       src: '',
       currentFrame: 0,
       currentFrameData: frameData[0]
     }
   },
-  events: {
-    'render-frame' () {
-    }
-  },
   methods: {
     done () {
-      this.gif.render()
+      // this.gif.render()
     },
     render () {
       this.nextFrame()
@@ -56,13 +62,30 @@ export default {
     },
     isNextFrame () {
       return typeof this.currentFrameData !== 'undefined'
+    },
+    loadImages () {
+      this.leftImage.img.src = this.leftImage.src
+      this.rightImage.img.src = this.rightImage.src
+      this.leftImage.img.onload = () => {
+        this.leftImage.loaded = true
+        this.$emit('images-loaded')
+      }
+      this.rightImage.img.onload = () => {
+        this.rightImage.loaded = true
+        this.$emit('images-loaded')
+      }
     }
   },
   mounted () {
     this.gif.on('finished', (blob) => {
       this.src = URL.createObjectURL(blob)
     })
-    this.$bus.$emit('render-frame', this.currentFrameData)
+    this.loadImages()
+    this.$on('images-loaded', () => {
+      if (this.rightImage.loaded && this.leftImage.loaded) {
+        this.$bus.$emit('render-frame', this.currentFrameData)
+      }
+    })
     this.$bus.$on('frame-rendered', this.render)
   },
   components: {
