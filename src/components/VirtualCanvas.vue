@@ -1,7 +1,5 @@
-<template lang="pug">
-canvas(:height="width", :width="height")
+<template>
 </template>
-
 <script>
 export default {
   name: 'virtualCanvas',
@@ -9,28 +7,78 @@ export default {
     baseImage: String,
     topImage: String,
     height: Number,
-    width: Number
+    width: Number,
+    gif: Object
   },
   data () {
     return {
-      ctx: null
+      ctx: null,
+      src: '',
+      canvas: document.createElement('canvas')
     }
   },
   mounted () {
     this.init()
     this.attachImage(this.baseImage, 0, 0)
-    this.attachImage(this.topImage, 0, 200)
+      .then(() => {
+        this.gif.addFrame(this.canvas, {copy: true})
+        return this.attachImage(this.topImage, 0, 0)
+      })
+      .then(() => {
+        this.gif.addFrame(this.canvas, {copy: true})
+        return this.attachImage(this.topImage, 25, 0)
+      })
+      .then(() => {
+        // add an image element
+        this.gif.render()
+      })
+    // this.attachImage(this.topImage, 0, 200)
+    /*
+    setTimeout(() => {
+      var gif = new window.GIF({
+        workers: 2,
+        quality: 10
+      })
+
+      // add an image element
+      gif.addFrame(this.$el)
+
+      gif.on('finished', (blob) => {
+        window.open(URL.createObjectURL(blob))
+      })
+
+      gif.render()
+    }, 400)
+    */
+    /*
+    // or a canvas element
+    gif.addFrame(canvasElement, {delay: 200});
+
+    // or copy the pixels from a canvas context
+    gif.addFrame(ctx, {copy: true});
+
+    gif.on('finished', function(blob) {
+      window.open(URL.createObjectURL(blob));
+    });
+
+    gif.render();
+    */
   },
   methods: {
     init () {
-      this.ctx = this.$el.getContext('2d')
+      this.canvas.height = this.height
+      this.canvas.width = this.width
+      this.ctx = this.canvas.getContext('2d')
     },
     attachImage (img, x, y) {
-      let _img = new Image()
-      _img.src = img
-      _img.onload = () => {
-        this.ctx.drawImage(_img, x, y)
-      }
+      return new Promise((resolve) => {
+        let _img = new Image()
+        _img.src = img
+        _img.onload = () => {
+          this.ctx.drawImage(_img, x, y)
+          resolve()
+        }
+      })
     }
   },
   events: {
