@@ -5,13 +5,15 @@
     :width="width",
     :base-image="baseImage",
     :top-image="topImage",
-    :gif="gif"
+    :gif="gif",
+    :frame-data="currentFrameData"
   )
   img(:src="src")
 </template>
 
 <script>
 import virtualCanvas from './components/VirtualCanvas.vue'
+import frameData from './assets/frameData.js'
 
 export default {
   name: 'app',
@@ -27,15 +29,42 @@ export default {
         height: this.height,
         width: this.width
       }),
-      src: ''
+      src: '',
+      currentFrame: 0,
+      currentFrameData: frameData[0]
+    }
+  },
+  events: {
+    'render-frame' () {
+    }
+  },
+  methods: {
+    done () {
+      this.gif.render()
+    },
+    render () {
+      this.nextFrame()
+      if (this.isNextFrame()) {
+        this.$bus.$emit('render-frame', this.currentFrameData)
+      } else {
+        this.done()
+      }
+    },
+    nextFrame () {
+      this.currentFrame++
+      this.currentFrameData = frameData[this.currentFrame]
+    },
+    isNextFrame () {
+      return typeof this.currentFrameData !== 'undefined'
     }
   },
   mounted () {
     this.gif.on('finished', (blob) => {
       this.src = URL.createObjectURL(blob)
     })
+    this.$bus.$emit('render-frame', this.currentFrameData)
+    this.$bus.$on('frame-rendered', this.render)
   },
-  // 600 x 521
   components: {
     virtualCanvas
   }
