@@ -5,7 +5,6 @@
     :width="width",
     :left-image="leftImage.img",
     :right-image="rightImage.img",
-    :base-image="baseImage",
     :gif="gif",
     :frame-data="currentFrameData"
   )
@@ -22,10 +21,9 @@ export default {
     return {
       height: 648,
       width: 746,
-      baseImage: './static/img/test_trump.png',
       gif: new window.GIF({
-        workers: 2,
-        quality: 10,
+        workers: 4,
+        quality: 2,
         height: this.height,
         width: this.width
       }),
@@ -46,7 +44,7 @@ export default {
   },
   methods: {
     done () {
-      // this.gif.render()
+      this.gif.render()
     },
     render () {
       this.nextFrame()
