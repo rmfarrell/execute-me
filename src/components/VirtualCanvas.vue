@@ -31,7 +31,7 @@ export default {
       this.ctx = this.canvas.getContext('2d')
     },
     reset () {
-      this.ctx.fillStyle = '#b0c4bb'
+      this.ctx.fillStyle = 'red'
       this.ctx.fillRect(0, 0, this.width, this.height)
     },
     resetTransform () {
@@ -42,6 +42,7 @@ export default {
       let d = data[address]
       this.ctx.setTransform(...d.transform)
       this.ctx.rotate(d.rotate)
+      if (d.flip) { this.ctx.scale(-1, 1) }
       this.ctx.drawImage(img, ...d.args)
       this.resetTransform()
     },
@@ -49,11 +50,11 @@ export default {
       this.reset()
       this.placePage(f, 'left', this.leftImage)
       this.placePage(f, 'right', this.rightImage)
-      // this.ctx.globalAlpha = 0.4
+      this.ctx.globalAlpha = 0.4
       this.attachImage(`./static/img/trumps/${f.trump}.png`, 0, 0)
         .then(() => {
-          // this.$el.appendChild(this.canvas)
-          this.gif.addFrame(this.canvas, {copy: true, delay: 140})
+          this.$el.appendChild(this.canvas)
+          // this.gif.addFrame(this.canvas, {copy: true, delay: 140})
           this.$bus.$emit('frame-rendered')
         })
     },
