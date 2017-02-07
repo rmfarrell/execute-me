@@ -42,6 +42,7 @@ export default {
       let d = data[address]
       this.ctx.setTransform(...d.transform)
       this.ctx.rotate(d.rotate)
+      if (d.flip) { this.ctx.scale(-1, 1) }
       this.ctx.drawImage(img, ...d.args)
       this.resetTransform()
     },

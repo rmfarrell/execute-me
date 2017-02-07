@@ -13,7 +13,7 @@
 
 <script>
 import virtualCanvas from './components/VirtualCanvas.vue'
-import frameData from './assets/frameData.js'
+import frameData from './frameData.js'
 
 export default {
   name: 'app',
