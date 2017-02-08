@@ -53,7 +53,6 @@ export default {
       // this.ctx.globalAlpha = 0.4
       this.attachImage(`./static/img/trumps/${f.trump}.png`, 0, 0)
         .then(() => {
-          console.log('test')
           // this.$el.appendChild(this.canvas)
           this.gif.addFrame(this.canvas, {copy: true, delay: 140})
           this.$bus.$emit('frame-rendered')

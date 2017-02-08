@@ -107,7 +107,6 @@ export default {
     render () {
       this.nextFrame()
       if (this.isNextFrame()) {
-        console.log('render')
         this.$bus.$emit('render-frame', this.currentFrameData)
       } else {
         this.done()
