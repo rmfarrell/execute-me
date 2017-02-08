@@ -1,0 +1,73 @@
+@import 'forms_reset'
+@import 'forms'
+
+body, html
+  color: white
+  font-family: "times", "times new roman", serif
+  font-size: 10px
+  padding: 0
+  margin: 0
+  background: black url('../img/bg.jpg') center center no-repeat
+
+*
+  box-sizing: border-box
+
+h1
+  color: red
+
+#image-selector
+  height: 800px
+  width: 100%
+  overflow: hidden
+  position: relative
+
+#modal
+  width: 746px
+  height: 648px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translateY(-50%) translateX(-50%)
+  background-color: white
+  transition: opacity 0.5s 0.3s, transform 0.5s 0.3s, visibility 0s
+  background: transparent url('../img/flag.gif') center center no-repeat
+  background-size: 150%
+
+  &.disabled
+    visibility: hidden
+    opacity: 0
+    transform: translateY(0) translateX(-50%) scale(1.5)
+
+  img
+    position: relative
+    z-index: 50
+
+.loading-eagle
+  background: transparent url('../img/eagle.gif') center center
+  height: 222px
+  width: 250px
+  position: absolute
+  animation-timing-function: linear
+  animation-name: rotate
+  animation-duration: 5s
+  animation-iteration-count: infinite
+  transform-origin: top left
+  top: 50%
+  left: 50%
+  z-index: 30
+
+.loading-indicator
+  position: absolute
+  top: 50%
+  width: 100%
+  text-align: center
+  font-size: 8em
+  transform: translateY(-2em)
+  text-shadow: -2px 5px 0 rgba(0,0,0,0.75)
+  z-index: 20
+
+@keyframes rotate
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
