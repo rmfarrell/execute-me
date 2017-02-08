@@ -44,8 +44,14 @@ module.exports = {
         }
       },
       {
-        test:   /\.sss/,
-        loader: "style-loader!css-loader!postcss-loader?parser=sugarss"
+        test: /\.scss$/,
+        use: [{
+            loader: "style-loader" // creates style nodes from JS strings
+        }, {
+            loader: "css-loader" // translates CSS into CommonJS
+        }, {
+            loader: "sass-loader" // compiles Sass to CSS
+        }]
       },
       {
         test: /\.vue$/,

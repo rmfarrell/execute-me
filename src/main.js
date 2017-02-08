@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import './assets/styles/master.sass'
 
 const bus = new Vue()
 Vue.prototype.$bus = bus
