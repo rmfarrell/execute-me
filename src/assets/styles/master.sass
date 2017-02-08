@@ -1,7 +1,7 @@
 @import 'forms_reset'
 @import 'forms'
 
-body, html
+body
   color: white
   font-family: "times", "times new roman", serif
   font-size: 10px
@@ -13,7 +13,48 @@ body, html
   box-sizing: border-box
 
 h1
+  background-color: white
+  padding: 0.1em
   color: red
+  font-size: 10em
+  position: absolute
+  margin: 0
+  left: 50%
+  transform: translateX(-50%)
+
+h2
+  background-color: white
+  padding: 0.1em
+  color: blue
+  font-size: 6em
+  position: absolute
+  margin: 0
+  right: 5%
+  top: 160px
+  width: 25%
+  text-decoration: underline
+
+h4
+  color: black
+  position: absolute
+  left: 5%
+  bottom: 5%
+  font-size: 2em
+  transform: rotate(-15deg)
+
+  span
+    color: white
+    text-align: center
+    line-height: 2em
+    background-color: red
+    width: 2em
+    height: 2em
+    display: inline-block
+    border-radius: 50%
+
+  span:nth-child(even)
+    background-color: blue
+    transform: translateY(-15%)
 
 #image-selector
   height: 800px
@@ -25,13 +66,14 @@ h1
   width: 746px
   height: 648px
   position: absolute
-  top: 50%
+  top: 10%
   left: 50%
-  transform: translateY(-50%) translateX(-50%)
+  transform: translateX(-50%)
   background-color: white
   transition: opacity 0.5s 0.3s, transform 0.5s 0.3s, visibility 0s
   background: transparent url('../img/flag.gif') center center no-repeat
   background-size: 150%
+  z-index: 5
 
   &.disabled
     visibility: hidden
@@ -71,3 +113,20 @@ h1
     transform: rotate(0deg)
   to
     transform: rotate(360deg)
+
+.dark-overlay
+  position: fixed
+  height: 100vh
+  width: 100vw
+  background-color: black
+  z-index: 2
+  opacity: 0.8
+  transform: opacity 0.3s 2s, visibility 0s 0.3s
+  visibility: visible
+
+  &.disabled
+    opacity: 0
+    visibility: hidden
+
+#done
+  z-index: 100

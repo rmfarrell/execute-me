@@ -1,5 +1,16 @@
 <template lang="pug">
 #app
+  .dark-overlay(:class="isProcessing ? '' : 'disabled'")
+  h1 Donald J’s
+  h4
+    span I
+    span T
+    span ’S
+    span C
+    span O
+    span O
+    span L
+  h2 Executive Order Maker
   form#image-selector(
     onSubmit="return false"
     @submit="createAnimation()",
@@ -24,7 +35,7 @@
     .image-indicator.right(v-if="rightImage.changed")
       img(:src="rightImage.src")
 
-    input(
+    input.cta(
       type="submit",
       value="Fabulous. Terrific. Sign it.",
       :class="canSubmit ? '' : 'disabled' "
@@ -41,6 +52,10 @@
     .loading-eagle
     p.loading-indicator Loading...
     img(:src="src")
+  //- a#done.cta(
+  //-   @click="reset()",
+  //-   :class="isDone ? '' : 'disabled' "
+  //- ) done
 </template>
 
 <script>
@@ -54,6 +69,8 @@ export default {
       height: 648,
       width: 746,
       isProcessing: false,
+      isDone: false,
+      blankImage: './static/img/transparent.png',
       gif: new window.GIF({
         workers: 4,
         quality: 2,
@@ -62,13 +79,13 @@ export default {
       }),
       leftImage: {
         loaded: false,
-        src: './static/img/transparent.png',
+        src: '',
         img: new Image(),
         changed: false
       },
       rightImage: {
         loaded: false,
-        src: './static/img/transparent.png',
+        src: '',
         img: new Image(),
         changed: false
       },
@@ -80,6 +97,12 @@ export default {
   methods: {
     done () {
       this.gif.render()
+      this.isDone = true
+    },
+    reset () {
+      this.loadPlaceHolders()
+      this.isProcessing = false
+      this.isDone = false
     },
     render () {
       this.nextFrame()
@@ -112,6 +135,18 @@ export default {
       return typeof this.currentFrameData !== 'undefined'
     },
     loadPlaceHolders () {
+      this.leftImage = {
+        loaded: false,
+        src: this.blankImage,
+        img: new Image(),
+        changed: false
+      }
+      this.rightImage = {
+        loaded: false,
+        src: this.blankImage,
+        img: new Image(),
+        changed: false
+      }
       this.loadImage(this.leftImage)
       this.loadImage(this.rightImage)
     },
