@@ -62,8 +62,8 @@ h4
   position: relative
 
 #modal
-  width: 746px
   height: 648px
+  width: 746px
   position: absolute
   top: 10%
   left: 50%
@@ -80,7 +80,9 @@ h4
     transform: translateY(0) translateX(-50%) scale(1.5)
 
   img
-    position: relative
+    position: absolute
+    height: 100%
+    width: 100%
     z-index: 50
 
 .loading-eagle
@@ -230,3 +232,73 @@ h4
   &.right
     top: 35%
     transform: rotateZ(12deg) rotateX(0deg) rotateY(0deg) translateX(20px)
+
+@media screen and (max-width: 1020px)
+  body
+    background-size: 1200px
+    background-position: center -40px
+
+  #image-selector
+    height: 700px
+
+  h1
+    white-space: nowrap
+    font-size: 5em
+    width: auto
+    left: auto
+    text-align: center
+    left: 50%
+
+  h2
+    font-size: 3em
+    width: 60%
+    left: 20%
+    top: 3em
+    text-align: center
+
+  h4
+    display: none
+
+  .file-input
+    height: 130px
+    width: 130px
+    font-size: 2.2em
+
+    &.left
+      top: 38%
+      transform: translateX(-160px)
+
+    &.right
+      top: 50%
+      transform: translateX(-5px)
+
+  .image-indicator
+    position: absolute
+    width: 100px
+    height: 140px
+    left: 50%
+    opacity: 1
+
+    &.left
+      top: 32%
+      transform: rotateZ(12deg) rotateX(0deg) rotateY(0deg) translateX(-130px)
+
+    &.right
+      top: 40%
+      transform: rotateZ(12deg) rotateX(0deg) rotateY(0deg) translateX(20px)
+
+  .cta
+    top: 60%
+    font-size: 3em
+    width: 6em
+
+@media screen and (max-width: 800px)
+
+  #modal
+    width: 95%
+    overflow: hidden
+    height: 0
+    padding-bottom: 82%
+
+    .loading-indicator
+      font-size: 6em
