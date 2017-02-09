@@ -46,6 +46,10 @@ export default {
       this.ctx.drawImage(img, ...d.args)
       this.resetTransform()
     },
+    attachWatermark () {
+      this.ctx.font = '12px arial'
+      this.ctx.fillText('http://execute.cool', 4, 640)
+    },
     renderFrame (f) {
       this.reset()
       this.placePage(f, 'left', this.leftImage)
@@ -53,6 +57,7 @@ export default {
       // this.ctx.globalAlpha = 0.4
       this.attachImage(`./static/img/trumps/${f.trump}.png`, 0, 0)
         .then(() => {
+          this.attachWatermark()
           // this.$el.appendChild(this.canvas)
           this.gif.addFrame(this.canvas, {copy: true, delay: 140})
           this.$bus.$emit('frame-rendered')

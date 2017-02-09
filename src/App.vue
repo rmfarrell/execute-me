@@ -52,10 +52,11 @@
     .loading-eagle
     p.loading-indicator Loading...
     img(:src="src")
-  //- a#done.cta(
-  //-   @click="reset()",
-  //-   :class="isDone ? '' : 'disabled' "
-  //- ) done
+  a#done.cta(
+    :href="src",
+    download,
+    :class="isDone ? '' : 'disabled' "
+  ) Keep it!
 </template>
 
 <script>
@@ -97,7 +98,6 @@ export default {
   methods: {
     done () {
       this.gif.render()
-      this.isDone = true
     },
     reset () {
       this.loadPlaceHolders()
@@ -159,6 +159,7 @@ export default {
   mounted () {
     this.gif.on('finished', (blob) => {
       this.src = URL.createObjectURL(blob)
+      this.isDone = true
     })
     this.loadPlaceHolders()
     this.$bus.$on('frame-rendered', this.render)
