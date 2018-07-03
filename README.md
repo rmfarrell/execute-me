@@ -1,6 +1,6 @@
 # Execute.cool
 Have The President your very own Executive Order.
-[execute.cool]http://execute.cool/
+[execute.cool](http://execute.cool/)
 
 ## Build Setup
 
